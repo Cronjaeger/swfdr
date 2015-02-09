@@ -131,7 +131,7 @@ getPvalues = function(abstract,pmid){
 
 
 journals = c("JAMA","New England Journal of Medicine","BMJ","American Journal of Epidemiology","Lancet")
-years = 2000:2010
+years = 2010:2014
 
 pvalueData = matrix(NA,nrow=1,ncol=6)
 colnames(pvalueData) = c("pvalue","pvalueTruncated","pubmedID","year","abstract","title")
@@ -187,7 +187,7 @@ pvalueData[which(pvalueData[,3] == 11943262),1] = 1e-4
 pvalueData = pvalueData[-which(pvalueData[,3]=="16421237"),] 
 
 
-save(pvalueData,npapers,file="pvalueData.rda")
+save(pvalueData,npapers,file="pvalueData_2010-2014.rda")
 
 
 
