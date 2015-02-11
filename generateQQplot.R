@@ -6,6 +6,8 @@
 
   outputFileName = "QQplot.pdf"
 
+  roundAndTruncate = TRUE
+
   pi0 = 0.14 # The false discovery rate presumed by the modell
 
   # the p-values associated with "true" alternatives are
@@ -39,13 +41,21 @@ if(length(pFromAlt) < N - n1){ #verify that we have enough samples
 
 simPVec = c(pFromNull,pFromAlt)
 
+if(roundAndTruncate){
+  tt = rbinom(length(simPVec),size=1,prob=0.2)
+  rr = rbinom(length(simPVec),size=1,prob=0.2)
+  rr[tt==1] = 0
+  
+  simPVec[rr > 0] = round(simPVec[rr > 0],2)
+}
+
 ylabel = paste("q_(",round(pi0,2),"UNIF + ",round(1-pi0,2),"BETA(1,100) (truncated to < 0.05))")
 
 pdf(file=outputFileName)
 qqplot(pVec,simPVec,
        xlab = "q_(Empirical p-values <0.05 from Jager&Leek)",
        ylab = ylabel,
-       main = "QQ-plot of scraped P-valued vs. Hypothetical distribution",
+#        main = "QQ-plot of scraped P-values vs. Hypothetical distribution",
        bty="n",pch=".",asp=1,xlim=c(0,0.05),ylim=c(0,0.05))
 abline(0,1,col="#BBBBBB")
 dev.off()
